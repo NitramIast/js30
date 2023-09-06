@@ -7,6 +7,24 @@
     <link rel="icon" href="https://fav.farm/🔥" />
   </head>
   <body>
-    <script></script>
+    <script>
+      const pressed = [];
+      const keyWord = 'martin';
+
+      window.addEventListener('keyup', e => {
+        console.log(e.key);
+        pressed.push(e.key);
+        // pressed.length會隨著資料輸入的數量增加
+        // keyWord.length字數是固定的
+        // 下面的splice會在第-7的位置增加一個新的資料並刪除0個資料
+        pressed.splice(-keyWord.length - 1, pressed.length - keyWord.length);
+        console.log(pressed);
+
+        if (pressed.join('').includes(keyWord)){
+          console.log('Ding Ding!');
+          cornify_add();
+        }
+      })
+    </script>
   </body>
 </html>

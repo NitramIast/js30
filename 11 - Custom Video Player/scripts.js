@@ -33,8 +33,13 @@ function skipChange(){
     video.currentTime += parseInt(this.dataset.skip);
 }
 
-function scrub(e){
+function handleProgress(){
+    progressBar.style.flexBasis = `${(video.currentTime / video.duration) * 100}%`;
+}
 
+function scrub(e){
+    const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
+    video.currentTime = scrubTime;
 }
 
 
@@ -42,6 +47,7 @@ function scrub(e){
 video.addEventListener('click', toggleButton);
 video.addEventListener('play', changeIcon);
 video.addEventListener('pause', changeIcon);
+video.addEventListener('timeupdate', handleProgress);
 
 toggle.addEventListener('click', toggleButton);
 slider.forEach(range => range.addEventListener('change', sliderIcon))
