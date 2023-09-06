@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log('hello');
+
+    // Interpolated
+    console.log('hello i am %s string', 'et');
+
+    // Styled
+    console.log('%c this is style', 'background-color: #dadada; font-size:30px;');
+
+    // warning!
+    console.warn('this is warning');
+
+    // Error :|
+    console.error('this is error');
+
+    // Info
+    console.info('Crocodiles eat 3-4 people per year');
+
+    // Testing
+    const p = document.querySelector('p');
+
+    console.assert(p.classList.contains('crocodiles'),'this is wrong');
+
+
+    // clearing
+    console.clear();
+
+    // Viewing DOM Elements
+    console.dir(p)
+
+    // Grouping together
+    dogs.forEach((dog) => {
+      console.group(`${dog.name}`);
+      console.log(`i am ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 10} years old`);
+      console.groupEnd(`${dog.name}`);
+    })
+
+    // counting
+    console.count('martin');
+    console.count('martin');
+    console.count('nancy');
+    console.count('martin');
+    console.count('martin');
+    console.count('nancy');
+    console.count('nancy');
+    console.count('martin');
+    console.count('martin');
+    console.count('nancy');
+    console.count('nancy');
+    console.count('nancy');
+    
+    // timing
+    console.time('fetchTime');
+
+    fetch('https://randomuser.me/api/?results=10')
+          .then(data => data.json())
+          .then(res => {
+            console.timeEnd('fetchTime');
+            console.log(res)
+          });
+
+  </script>
+</body>
+</html>

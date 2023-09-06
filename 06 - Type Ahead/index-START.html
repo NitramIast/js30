@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+// 先聲明一個空的陣列，之後可以放資料進去
+const cities = [];
+
+// 取得資料庫的資料並轉換成陣列
+fetch(endpoint)
+          .then(blob => blob.json())
+          // 把資料推入陣列中，並用'...' 讓data陣列跟空的cities陣列合併
+          .then(data => cities.push(...data))
+
+// 用來搜尋資料是否相符的function
+function findMatch(wordToMatch, cities) {
+  return cities.filter(place => {
+    // RegExp()'正則運算式' g:global全域大小寫 i:ignoreCase 忽略大小寫
+    const regexp = new RegExp(wordToMatch, 'gi')
+    // 回傳place'function名'.'的'city'屬性'.match'與之相符的'
+    return place.city.match(regexp) || place.state.match(regexp);
+  })
+}
+// 在主控台用▽此function已經可以搜尋('任何與資料庫相符的資料', cities(資料庫陣列名))
+// findMatch('Bos', cities);
+
+// 正則運算式function為了將搜尋清單的數字增加逗點
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function displayMatches(){
+  const matchArray = findMatch(this.value, cities);
+  const html = matchArray.map(place => {
+    const regexp = new RegExp(this.value, 'gi');
+    const cityName = place.city.replace(regexp, `<span class="hl">${this.value}</span>`)
+    const stateName = place.state.replace(regexp, `<span class="hl">${this.value}</span>`)
+    return `
+      <li>
+        <span class="name">${cityName}, ${stateName}</span>
+        <span class="population">${numberWithCommas(place.population)}</span>
+      </li>
+    `;
+  }).join('');
+  suggests.innerHTML = html;
+}
+
+
+// 聲明搜尋框
+const search = document.querySelector('.search');
+// 聲明建議列表
+const suggests = document.querySelector('.suggestions');
+
+search.addEventListener('change', displayMatches);
+search.addEventListener('keyup', displayMatches);
+
+
+
+</script>
+</body>
+</html>
